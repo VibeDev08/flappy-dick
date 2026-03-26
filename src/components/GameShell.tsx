@@ -8,7 +8,6 @@ import { GameCanvas } from "@/components/GameCanvas";
 import { LeaderboardModal } from "@/components/LeaderboardModal";
 import { NavBar } from "@/components/NavBar";
 import { ResultOverlay } from "@/components/ResultOverlay";
-import { SocialBar } from "@/components/SocialBar";
 import { StartOverlay } from "@/components/StartOverlay";
 import { AudioDirector } from "@/lib/audio/audioDirector";
 import { avatars, type AvatarId } from "@/lib/content/gameContent";
@@ -219,7 +218,6 @@ export function GameShell() {
     <>
       <section className="gameFrame">
         <NavBar onOpenLeaderboard={() => setLeaderboardOpen(true)} />
-        <SocialBar />
         <div className="canvasShell">
           {loadingRun ? <div className="canvasLoading">Spinning up a fresh run...</div> : null}
           <GameCanvas
@@ -238,10 +236,9 @@ export function GameShell() {
           {showChooseOverlay ? (
             <CharacterSelect
               onContinue={() => {
-                if (pendingCharacter) {
-                  setSelectedCharacter(pendingCharacter);
-                  saveCharacter(pendingCharacter);
-                }
+                const chosen = pendingCharacter ?? "ivory-twin";
+                setSelectedCharacter(chosen);
+                saveCharacter(chosen);
                 void beginRun();
               }}
               onSelect={setPendingCharacter}
