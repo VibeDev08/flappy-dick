@@ -1032,6 +1032,19 @@ input {
     font-size: 1.3rem;
     padding: 12px 26px 10px;
   }
+
+  .scorePanelRow {
+    gap: 4px;
+  }
+
+  .scorePanelCol {
+    min-width: 56px;
+    gap: 4px;
+  }
+
+  .scorePanelDivider {
+    height: 46px;
+  }
 }
 
 @media (max-width: 460px) {
@@ -1117,6 +1130,19 @@ input {
   .splatContainer {
     width: min(336px, 94vw);
     height: min(286px, 80vw);
+  }
+
+  .scorePanelRow {
+    gap: 2px;
+  }
+
+  .scorePanelCol {
+    min-width: 50px;
+    gap: 3px;
+  }
+
+  .scorePanelDivider {
+    height: 40px;
   }
 
   .gameOverNameForm {
