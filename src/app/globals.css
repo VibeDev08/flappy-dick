@@ -634,8 +634,8 @@ input {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: min(360px, 90vw);
-  height: min(306px, 76vw);
+  width: min(372px, 92vw);
+  height: min(316px, 78vw);
 }
 
 .splatSvg {
@@ -654,22 +654,24 @@ input {
   align-items: center;
   gap: 4px;
   padding-bottom: 12px;
-  max-width: 180px;
+  width: 180px;
 }
 
 .scorePanelRow {
   display: flex;
   align-items: center;
-  gap: 0;
-  width: 100%;
+  justify-content: center;
+  gap: 6px;
+  width: auto;
 }
 
 .scorePanelCol {
-  flex: 1;
+  flex: none;
+  min-width: 62px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 4px;
+  gap: 6px;
 }
 
 .scorePanelDivider {
@@ -677,7 +679,7 @@ input {
   height: 52px;
   background: rgba(0, 0, 0, 0.14);
   border-radius: 2px;
-  margin: 0 12px;
+  margin: 0;
 }
 
 .scorePanelLabel {
@@ -697,6 +699,7 @@ input {
   display: flex;
   align-items: center;
   gap: 6px;
+  margin-top: 0;
 }
 
 .newBestTag {
@@ -715,7 +718,6 @@ input {
   color: #7a5e28;
   text-align: center;
   font-style: italic;
-  max-width: 140px;
   line-height: 1.3;
 }
 
@@ -1113,8 +1115,8 @@ input {
   }
 
   .splatContainer {
-    width: min(320px, 92vw);
-    height: min(272px, 78vw);
+    width: min(336px, 94vw);
+    height: min(286px, 80vw);
   }
 
   .gameOverNameForm {
@@ -1197,8 +1199,8 @@ input {
   }
 
   .splatContainer {
-    width: min(300px, 78vw);
-    height: min(246px, 64vw);
+    width: min(320px, 84vw);
+    height: min(262px, 68vw);
   }
 }
 
