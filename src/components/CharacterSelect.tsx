@@ -33,7 +33,7 @@ export function CharacterSelect({ selected, onSelect, onContinue }: CharacterSel
         ))}
       </div>
 
-      <button className="gameOverBtn gameOverBtnPrimary chooseConfirmBtn" disabled={!selected} onClick={onContinue} type="button">
+      <button className="gameOverBtn gameOverBtnPrimary chooseConfirmBtn" onClick={onContinue} type="button">
         Let&apos;s Go
       </button>
     </div>
