@@ -26,7 +26,12 @@ export function ResultOverlay({
   onShare,
 }: ResultOverlayProps) {
   const [name, setName] = useState("");
-  const [quip] = useState(() => gooLines[Math.floor(Math.random() * gooLines.length)]);
+  const [quip] = useState(() => {
+    const maxQuipChars = 30;
+    const candidate = gooLines[Math.floor(Math.random() * gooLines.length)];
+    if (candidate.length <= maxQuipChars) return candidate;
+    return `${candidate.slice(0, maxQuipChars - 3).trimEnd()}...`;
+  });
   const isNewBest = score > 0 && score >= bestScore;
   const isDisabled = isSubmitting || name.trim().length === 0;
 

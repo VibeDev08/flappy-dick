@@ -136,7 +136,7 @@ export const gooLines = [
   "Speed run to the floor.",
   "Not your finest moment.",
   "Outstanding incompetence.",
-  "The obstacles weren't even moving that fast.",
+  "They weren't even moving that fast.",
   "You had one job.",
 ];
 
