@@ -21,7 +21,8 @@ describe("game engine", () => {
 
   it("spawns obstacles after the initial delay", () => {
     const state = createInitialState("onyx-twin");
-    const next = updateGame(state, { flap: false }, GAME_CONSTANTS.firstObstacleDelayMs + 1);
+    const running = { ...state, phase: "running" as const };
+    const next = updateGame(running, { flap: false }, GAME_CONSTANTS.firstObstacleDelayMs + 1);
 
     expect(next.obstacles).toHaveLength(1);
   });
@@ -30,6 +31,7 @@ describe("game engine", () => {
     const state = createInitialState("ivory-twin");
     const seeded = {
       ...state,
+      phase: "running" as const,
       obstacles: [
         {
           id: 1,
@@ -51,6 +53,7 @@ describe("game engine", () => {
     const state = createInitialState("ivory-twin");
     const seeded = {
       ...state,
+      phase: "running" as const,
       obstacles: [
         {
           id: 1,

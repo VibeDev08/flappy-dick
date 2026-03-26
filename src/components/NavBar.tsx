@@ -116,12 +116,12 @@ export function NavBar({ onOpenLeaderboard }: NavBarProps) {
                     Tap. Flap. Die. Repeat. Cry. Tap again.
                   </p>
                   <p>
-                    Think you've got what it takes to crack the top 10? Spoiler:
-                    you probably don't. But that's never stopped anyone before.
+                    Think you&apos;ve got what it takes to crack the top 10? Spoiler:
+                    you probably don&apos;t. But that&apos;s never stopped anyone before.
                   </p>
                   <p>
                     <strong>Controls:</strong> Tap the screen or smash Space to
-                    flap. That's it. We didn't overcomplicate it.
+                    flap. That&apos;s it. We didn&apos;t overcomplicate it.
                   </p>
                   <p style={{color: "rgba(255,255,255,0.4)", fontSize: "0.78rem"}}>
                     18+ only. Not suitable for the easily offended, your boss,
@@ -150,7 +150,7 @@ export function NavBar({ onOpenLeaderboard }: NavBarProps) {
                 <h2 className="lbTitle">Privacy Policy</h2>
                 <div className="navModalBody">
                   <p>
-                    <strong>We aren't DICKS:</strong> We don't take your valuable
+                    <strong>We aren&apos;t DICKS:</strong> We don&apos;t take your valuable
                     data and sell it behind your back.
                   </p>
                   <p>
@@ -159,7 +159,7 @@ export function NavBar({ onOpenLeaderboard }: NavBarProps) {
                     No email, account, or personal data is required.
                   </p>
                   <p>
-                    <strong>Cookies &amp; storage:</strong> We use your browser's
+                    <strong>Cookies &amp; storage:</strong> We use your browser&apos;s
                     local storage to remember your best score and selected
                     character. No tracking cookies are used.
                   </p>
@@ -168,7 +168,7 @@ export function NavBar({ onOpenLeaderboard }: NavBarProps) {
                     data with third parties.
                   </p>
                   <p>
-                    <strong>Contact:</strong> Questions? Reach out via the game's
+                    <strong>Contact:</strong> Questions? Reach out via the game&apos;s
                     social channels.
                   </p>
                 </div>

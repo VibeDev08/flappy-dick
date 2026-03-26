@@ -40,3 +40,9 @@
 ## Milestone 7
 
 - [x] Replace file-backed leaderboard persistence with Supabase-hosted storage.
+
+## Milestone 8
+
+- [x] Resolve blocking lint/type issues for a production build.
+- [x] Reconcile gameplay-core tests with current engine phase behavior.
+- [x] Re-validate deploy pipeline (`lint`, `test`, `build`) end-to-end.

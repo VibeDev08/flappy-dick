@@ -129,7 +129,7 @@ export function GameCanvas({
 
     frameId = window.requestAnimationFrame(render);
     return () => window.cancelAnimationFrame(frameId);
-  }, [onCrash, onRunStart, onScore]);
+  }, [hidePlayer, onCrash, onRunStart, onScore]);
 
   return (
     <div

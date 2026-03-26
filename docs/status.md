@@ -22,11 +22,12 @@
 - Playfield widened further to better match the reference Flappy Bird browser layout
 - Startup flow updated to use a Flappy-Bird-style title screen and separate ready screen before the run begins
 - Leaderboard persistence migrated from local file storage to Supabase-backed tables with token replay protection
+- Deploy-readiness hardening pass completed (lint errors fixed, tests aligned with runtime behavior, production type safety validated)
+- Full release checks passing locally: `npm run lint`, `npm run test`, and `npm run build`
 
 ## Follow-Up Ideas
 
 - Add real browser automation or manual QA coverage for desktop and mobile devices.
-- Replace file-backed leaderboard storage with hosted persistence when deployment requirements are known.
 - Add production hosting credentials and point the deployment at the final custom domain.
 
 ## Risks

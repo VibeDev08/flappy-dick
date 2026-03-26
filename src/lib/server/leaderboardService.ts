@@ -26,7 +26,7 @@ function mapLeaderboardRow(row: LeaderboardRow): LeaderboardEntry {
 }
 
 async function fetchTopEntries(limit = 10): Promise<LeaderboardEntry[]> {
-  const supabase = getSupabaseAdminClient() as any;
+  const supabase = getSupabaseAdminClient();
   const { data, error } = await supabase
     .from("leaderboard_entries")
     .select("id,name,score,character_id,created_at")
@@ -42,7 +42,7 @@ async function fetchTopEntries(limit = 10): Promise<LeaderboardEntry[]> {
 }
 
 async function reserveRunToken(tokenId: string): Promise<void> {
-  const supabase = getSupabaseAdminClient() as any;
+  const supabase = getSupabaseAdminClient();
   const { error } = await supabase.from("used_run_tokens").insert({ token_id: tokenId });
   if (!error) {
     return;
@@ -61,7 +61,7 @@ async function insertLeaderboardEntry(input: {
   score: number;
   characterId: AvatarId;
 }): Promise<void> {
-  const supabase = getSupabaseAdminClient() as any;
+  const supabase = getSupabaseAdminClient();
   const { error } = await supabase.from("leaderboard_entries").insert({
     id: input.id,
     name: input.name,
@@ -75,7 +75,7 @@ async function insertLeaderboardEntry(input: {
 }
 
 async function trimLeaderboard(limit = 10): Promise<void> {
-  const supabase = getSupabaseAdminClient() as any;
+  const supabase = getSupabaseAdminClient();
   const { data, error } = await supabase
     .from("leaderboard_entries")
     .select("id")

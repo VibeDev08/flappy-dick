@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 import { AgeGate } from "@/components/AgeGate";
 import { CharacterSelect } from "@/components/CharacterSelect";
@@ -196,12 +196,6 @@ export function GameShell() {
     [result, runToken, selectedCharacter],
   );
 
-  const currentAvatar = useMemo(
-    () => avatars.find((avatar) => avatar.id === selectedCharacter) ?? avatars[0],
-    [selectedCharacter],
-  );
-
-  const showHeader = introStage === "playing" && !result;
   const showTitleOverlay = introStage === "title" && !result;
   const showChooseOverlay = introStage === "choose" && !result;
   const showReadyOverlay = introStage === "ready" && !result;
@@ -258,9 +252,7 @@ export function GameShell() {
           {result ? (
             <ResultOverlay
               bestScore={bestScore}
-              characterId={selectedCharacter}
               isSubmitting={isSubmitting}
-              onOpenLeaderboard={() => setLeaderboardOpen(true)}
               onRetry={() => void retryRun()}
               onShare={() => void shareScore()}
               onSubmitName={(name) => void submitName(name)}

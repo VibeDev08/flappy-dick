@@ -2,32 +2,28 @@
 
 import { useState } from "react";
 
-import { gooLines, type AvatarId } from "@/lib/content/gameContent";
+import { gooLines } from "@/lib/content/gameContent";
 
 type ResultOverlayProps = {
   score: number;
   bestScore: number;
   qualifies: boolean;
-  characterId: AvatarId;
   isSubmitting: boolean;
   submitError: string | null;
   onRetry: () => void;
   onSubmitName: (name: string) => void;
   onShare: () => void;
-  onOpenLeaderboard: () => void;
 };
 
 export function ResultOverlay({
   score,
   bestScore,
   qualifies,
-  characterId,
   isSubmitting,
   submitError,
   onRetry,
   onSubmitName,
   onShare,
-  onOpenLeaderboard,
 }: ResultOverlayProps) {
   const [name, setName] = useState("");
   const [quip] = useState(() => gooLines[Math.floor(Math.random() * gooLines.length)]);

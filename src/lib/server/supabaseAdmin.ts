@@ -1,4 +1,4 @@
-import { createClient } from "@supabase/supabase-js";
+import { createClient, type SupabaseClient } from "@supabase/supabase-js";
 
 type Database = {
   public: {
@@ -25,6 +25,7 @@ type Database = {
           character_id?: "ivory-twin" | "onyx-twin";
           created_at?: string;
         };
+        Relationships: [];
       };
       used_run_tokens: {
         Row: {
@@ -39,12 +40,17 @@ type Database = {
           token_id?: string;
           used_at?: string;
         };
+        Relationships: [];
       };
     };
+    Views: Record<string, never>;
+    Functions: Record<string, never>;
+    Enums: Record<string, never>;
+    CompositeTypes: Record<string, never>;
   };
 };
 
-let cachedClient: ReturnType<typeof createClient<Database>> | null = null;
+let cachedClient: SupabaseClient<Database> | null = null;
 
 function requiredEnv(name: string): string {
   const value = process.env[name];
@@ -54,7 +60,7 @@ function requiredEnv(name: string): string {
   return value;
 }
 
-export function getSupabaseAdminClient() {
+export function getSupabaseAdminClient(): SupabaseClient<Database> {
   if (cachedClient) {
     return cachedClient;
   }
