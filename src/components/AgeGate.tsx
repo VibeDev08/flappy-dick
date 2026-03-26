@@ -10,8 +10,6 @@ export function AgeGate({ onConfirm }: AgeGateProps) {
   return (
     <div className="ageGateScreen">
       <section className="ageGateCard">
-        <span className="ageGateBadge">18+</span>
-        <h1 className="ageGateTitle">{uiCopy.ageGateTitle}</h1>
         <p className="ageGateBody">{uiCopy.ageGateBody}</p>
         <button
           className="gameOverBtn gameOverBtnPrimary ageGateBtn"
