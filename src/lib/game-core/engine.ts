@@ -1,0 +1,178 @@
+import { GAME_CONSTANTS, WORLD_HEIGHT, WORLD_WIDTH } from "@/lib/game-core/constants";
+import type { GameInput, GameState, ObstacleState } from "@/lib/game-core/types";
+
+function clamp(value: number, min: number, max: number): number {
+  return Math.max(min, Math.min(max, value));
+}
+
+function getDifficulty(score: number) {
+  // Ramps up over first 20 points then plateaus
+  const t = Math.min(score / 20, 1);
+  return {
+    obstacleSpeed: GAME_CONSTANTS.obstacleSpeed + t * 120,       // 180 → 300
+    gapHeight: GAME_CONSTANTS.minGapHeight - t * 44,             // 172 → 128
+    spacingMs: GAME_CONSTANTS.obstacleSpacingMs - t * 450,       // 1400 → 950
+  };
+}
+
+function nextGapCenter(score: number, elapsedMs: number): number {
+  const center = WORLD_HEIGHT / 2;
+  const wiggle = Math.sin((elapsedMs / 1000) * 1.9 + score * 0.7) * GAME_CONSTANTS.gapJitter;
+  return clamp(
+    center + wiggle,
+    GAME_CONSTANTS.topHudHeight + GAME_CONSTANTS.minGapHeight / 2 + 12,
+    WORLD_HEIGHT - GAME_CONSTANTS.safeMargin - GAME_CONSTANTS.minGapHeight / 2,
+  );
+}
+
+function spawnObstacle(state: GameState): ObstacleState {
+  return {
+    id: state.nextObstacleId,
+    variantId: `variant-${state.nextObstacleId}`,
+    x: WORLD_WIDTH + GAME_CONSTANTS.obstacleWidth,
+    width: GAME_CONSTANTS.obstacleWidth,
+    gapY: nextGapCenter(state.score, state.elapsedMs),
+    gapHeight: GAME_CONSTANTS.minGapHeight,
+    scored: false,
+  };
+}
+
+function collidesWithObstacle(state: GameState, obstacle: ObstacleState): boolean {
+  const hitboxWidth = state.player.width * 0.52;
+  const hitboxHeight = state.player.height * 0.62;
+  const playerLeft = state.player.x - hitboxWidth / 2;
+  const playerRight = state.player.x + hitboxWidth / 2;
+  const playerTop = state.player.y - hitboxHeight / 2;
+  const playerBottom = state.player.y + hitboxHeight / 2;
+
+  // Trim obstacle hitbox to match drawn shaft width (~64% of column)
+  const trim = obstacle.width * 0.18;
+  const obstacleLeft = obstacle.x + trim;
+  const obstacleRight = obstacle.x + obstacle.width - trim;
+  const inColumn = playerRight > obstacleLeft && playerLeft < obstacleRight;
+  if (!inColumn) {
+    return false;
+  }
+
+  const gapTop = obstacle.gapY - obstacle.gapHeight / 2;
+  const gapBottom = obstacle.gapY + obstacle.gapHeight / 2;
+  return playerTop < gapTop || playerBottom > gapBottom;
+}
+
+export function createInitialState(characterId: GameState["characterId"]): GameState {
+  return {
+    phase: "ready",
+    score: 0,
+    elapsedMs: 0,
+    nextObstacleId: 1,
+    spawnCooldownMs: GAME_CONSTANTS.firstObstacleDelayMs,
+    player: {
+      x: GAME_CONSTANTS.playerX,
+      y: WORLD_HEIGHT / 2,
+      velocityY: 0,
+      width: GAME_CONSTANTS.playerBaseWidth,
+      height: GAME_CONSTANTS.playerBaseHeight,
+      rotation: 0,
+    },
+    obstacles: [],
+    characterId,
+  };
+}
+
+export function restartState(previous: GameState): GameState {
+  return createInitialState(previous.characterId);
+}
+
+export function updateGame(state: GameState, input: GameInput, deltaMs: number): GameState {
+  if (state.phase === "dead") {
+    return {
+      ...state,
+      elapsedMs: state.elapsedMs + deltaMs,
+    };
+  }
+
+  if (state.phase === "ready") {
+    if (!input.flap) {
+      return state;
+    }
+
+    return updateGame(
+      {
+        ...state,
+        phase: "running",
+      },
+      { flap: true },
+      deltaMs,
+    );
+  }
+
+  const deltaSeconds = deltaMs / 1000;
+  const difficulty = getDifficulty(state.score);
+  let nextVelocityY = state.player.velocityY + GAME_CONSTANTS.gravity * deltaSeconds;
+  if (input.flap) {
+    nextVelocityY = GAME_CONSTANTS.flapVelocity;
+  }
+
+  const nextY = state.player.y + nextVelocityY * deltaSeconds;
+  const targetRotation = clamp(nextVelocityY / 680, -0.8, 1.2);
+  const nextRotation = state.player.rotation * 0.7 + targetRotation * 0.3;
+  const movedObstacles = state.obstacles
+    .map((obstacle) => ({
+      ...obstacle,
+      x: obstacle.x - difficulty.obstacleSpeed * deltaSeconds,
+    }))
+    .filter((obstacle) => obstacle.x + obstacle.width > -18);
+
+  const elapsedMs = state.elapsedMs + deltaMs;
+  let spawnCooldownMs = state.spawnCooldownMs - deltaMs;
+  let nextObstacleId = state.nextObstacleId;
+  if (spawnCooldownMs <= 0) {
+    const spawned = {
+      ...spawnObstacle({ ...state, elapsedMs, nextObstacleId }),
+      gapHeight: difficulty.gapHeight,
+    };
+    movedObstacles.push(spawned);
+    nextObstacleId += 1;
+    spawnCooldownMs += difficulty.spacingMs;
+  }
+
+  let score = state.score;
+  const scoredObstacles = movedObstacles.map((obstacle) => {
+    if (!obstacle.scored && obstacle.x + obstacle.width < state.player.x) {
+      score += 1;
+      return {
+        ...obstacle,
+        scored: true,
+      };
+    }
+
+    return obstacle;
+  });
+
+  const nextState: GameState = {
+    ...state,
+    score,
+    elapsedMs,
+    nextObstacleId,
+    spawnCooldownMs,
+    player: {
+      ...state.player,
+      y: nextY,
+      velocityY: nextVelocityY,
+      rotation: nextRotation,
+    },
+    obstacles: scoredObstacles,
+  };
+
+  const topOut = nextState.player.y - nextState.player.height / 2 < GAME_CONSTANTS.topHudHeight;
+  const bottomOut = nextState.player.y + nextState.player.height / 2 > WORLD_HEIGHT - GAME_CONSTANTS.safeMargin;
+  const hitObstacle = nextState.obstacles.some((obstacle) => collidesWithObstacle(nextState, obstacle));
+  if (topOut || bottomOut || hitObstacle) {
+    return {
+      ...nextState,
+      phase: "dead",
+    };
+  }
+
+  return nextState;
+}
