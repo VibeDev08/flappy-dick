@@ -9,8 +9,9 @@ type AgeGateProps = {
 export function AgeGate({ onConfirm }: AgeGateProps) {
   return (
     <div className="ageGateScreen">
-      <h1 className="ageGateTitle">Flappy Dick</h1>
-      <section className="ageGateCard">
+      <div className="ageGateWrapper">
+        <h1 className="ageGateTitle">Flappy Dick</h1>
+        <section className="ageGateCard">
         <p className="ageGateBody">{uiCopy.ageGateBody}</p>
         <button
           className="gameOverBtn gameOverBtnPrimary ageGateBtn"
@@ -20,6 +21,7 @@ export function AgeGate({ onConfirm }: AgeGateProps) {
           I&apos;m 18+ and ready
         </button>
       </section>
+      </div>
     </div>
   );
 }
