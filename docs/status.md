@@ -24,6 +24,7 @@
 - Leaderboard persistence migrated from local file storage to Supabase-backed tables with token replay protection
 - Deploy-readiness hardening pass completed (lint errors fixed, tests aligned with runtime behavior, production type safety validated)
 - Full release checks passing locally: `npm run lint`, `npm run test`, and `npm run build`
+- Result-overlay quips now use curated short phrases directly (no runtime ellipsis truncation)
 
 ## Follow-Up Ideas
 

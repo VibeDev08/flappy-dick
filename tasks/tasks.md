@@ -46,3 +46,4 @@
 - [x] Resolve blocking lint/type issues for a production build.
 - [x] Reconcile gameplay-core tests with current engine phase behavior.
 - [x] Re-validate deploy pipeline (`lint`, `test`, `build`) end-to-end.
+- [x] Replace runtime quip truncation with manually shortened phrases that fit the 30-char cap.
