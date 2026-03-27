@@ -152,5 +152,5 @@ export const uiCopy = {
   ageGateBody: "This is a crude parody game with adult humor. Confirm you are 18+ to keep flapping.",
   startPrompt: "Tap, click, or smack space to flap.",
   retryPrompt: "Tap, click, or hit space to go again.",
-  leaderboardTitle: "Top 10 Pecking Order",
+  leaderboardTitle: "Leaderboard",
 };
