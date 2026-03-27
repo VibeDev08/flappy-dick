@@ -1,0 +1,41 @@
+{
+  "name": "flappy-dick",
+  "version": "1.0.0",
+  "description": "Browser-first adult comedy arcade game.",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint .",
+    "test": "vitest run",
+    "pages:build": "opennextjs-cloudflare build",
+    "preview": "opennextjs-cloudflare preview"
+  },
+  "keywords": [
+    "nextjs",
+    "arcade",
+    "canvas"
+  ],
+  "license": "UNLICENSED",
+  "private": true,
+  "dependencies": {
+    "@next/third-parties": "^16.2.1",
+    "@supabase/supabase-js": "^2.100.0",
+    "next": "^15.5.14",
+    "react": "^19.2.4",
+    "react-dom": "^19.2.4",
+    "zod": "^4.3.6"
+  },
+  "devDependencies": {
+    "@eslint/eslintrc": "^3.3.5",
+    "@opennextjs/cloudflare": "^1.13.0",
+    "@types/node": "^25.5.0",
+    "@types/react": "^19.2.14",
+    "@types/react-dom": "^19.2.3",
+    "eslint": "^9.39.4",
+    "eslint-config-next": "^16.2.1",
+    "typescript": "^5.9.3",
+    "vitest": "^4.1.0",
+    "wrangler": "^4.77.0"
+  }
+}
