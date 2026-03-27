@@ -47,3 +47,7 @@
 - [x] Reconcile gameplay-core tests with current engine phase behavior.
 - [x] Re-validate deploy pipeline (`lint`, `test`, `build`) end-to-end.
 - [x] Replace runtime quip truncation with manually shortened phrases that fit the 30-char cap.
+
+## Milestone 9
+
+- [x] Add a standard deploy checklist and npm scripts for repeatable production releases.

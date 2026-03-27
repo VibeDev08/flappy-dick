@@ -9,7 +9,10 @@
     "lint": "eslint .",
     "test": "vitest run",
     "pages:build": "node --no-warnings=ExperimentalWarning ./node_modules/.bin/opennextjs-cloudflare build",
-    "preview": "opennextjs-cloudflare preview"
+    "preview": "opennextjs-cloudflare preview",
+    "verify": "npm run lint && npm run test && npm run pages:build",
+    "secrets:check": "npx wrangler secret list --name flappy-dick",
+    "deploy:prod": "npm run pages:build && npx wrangler deploy"
   },
   "keywords": [
     "nextjs",

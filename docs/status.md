@@ -25,6 +25,7 @@
 - Deploy-readiness hardening pass completed (lint errors fixed, tests aligned with runtime behavior, production type safety validated)
 - Full release checks passing locally: `npm run lint`, `npm run test`, and `npm run build`
 - Result-overlay quips now use curated short phrases directly (no runtime ellipsis truncation)
+- Deployment runbook added with repeatable verify/secret/deploy checklist and package scripts
 
 ## Follow-Up Ideas
 

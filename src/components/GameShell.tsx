@@ -153,18 +153,34 @@ export function GameShell() {
       const nextBest = Math.max(bestScore, state.score);
       setBestScore(nextBest);
       saveNumber(storageKeys.bestScore, nextBest);
-
-      const response = await fetch("/api/leaderboard");
-      const payload = (await response.json()) as { entries: LeaderboardEntry[] };
-      const freshEntries = payload.entries;
-      setLeaderboardEntries(freshEntries);
-
       setResult({
         score: state.score,
-        qualifies: isTopTen(freshEntries, state.score),
+        qualifies: isTopTen(leaderboardEntries, state.score),
       });
+
+      try {
+        const response = await fetch("/api/leaderboard");
+        if (!response.ok) {
+          return;
+        }
+        const payload = (await response.json()) as { entries: LeaderboardEntry[] };
+        const freshEntries = payload.entries;
+        setLeaderboardEntries(freshEntries);
+
+        setResult((current) => {
+          if (!current) {
+            return current;
+          }
+          return {
+            ...current,
+            qualifies: isTopTen(freshEntries, state.score),
+          };
+        });
+      } catch {
+        // Ignore leaderboard refresh errors; crash results stay visible.
+      }
     },
-    [bestScore],
+    [bestScore, leaderboardEntries],
   );
 
   const shareScore = useCallback(() => {
