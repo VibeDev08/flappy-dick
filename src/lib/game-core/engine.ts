@@ -7,12 +7,13 @@ function clamp(value: number, min: number, max: number): number {
 }
 
 function getDifficulty(score: number) {
-  // Ramps up over first 20 points then plateaus
-  const t = Math.min(score / 20, 1);
+  // Speed and spacing ramp over first 30 points, gap ramps over first 45 points
+  const tSpeed = Math.min(score / 30, 1);
+  const tGap = Math.min(score / 45, 1);
   return {
-    obstacleSpeed: GAME_CONSTANTS.obstacleSpeed + t * 120,       // 180 → 300
-    gapHeight: GAME_CONSTANTS.minGapHeight - t * 44,             // 172 → 128
-    spacingMs: GAME_CONSTANTS.obstacleSpacingMs - t * 450,       // 1400 → 950
+    obstacleSpeed: GAME_CONSTANTS.obstacleSpeed + tSpeed * 120,  // 180 → 300
+    gapHeight: GAME_CONSTANTS.minGapHeight - tGap * 44,          // 172 → 128
+    spacingMs: GAME_CONSTANTS.obstacleSpacingMs - tSpeed * 450,  // 1400 → 950
   };
 }
 
