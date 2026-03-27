@@ -1,3 +1,4 @@
+import { avatars } from "@/lib/content/gameContent";
 import { GAME_CONSTANTS, WORLD_HEIGHT, WORLD_WIDTH } from "@/lib/game-core/constants";
 import type { GameInput, GameState, ObstacleState } from "@/lib/game-core/types";
 
@@ -38,12 +39,15 @@ function spawnObstacle(state: GameState): ObstacleState {
 }
 
 function collidesWithObstacle(state: GameState, obstacle: ObstacleState): boolean {
-  const hitboxWidth = state.player.width * 0.52;
-  const hitboxHeight = state.player.height * 0.62;
-  const playerLeft = state.player.x - hitboxWidth / 2;
-  const playerRight = state.player.x + hitboxWidth / 2;
-  const playerTop = state.player.y - hitboxHeight / 2;
-  const playerBottom = state.player.y + hitboxHeight / 2;
+  const avatar = avatars.find((a) => a.id === state.characterId) ?? avatars[0];
+  const ex = (avatar.lengthScale - 1) * 32;
+  const s = avatar.sizeScale;
+
+  // Hitbox matches the shaft's actual visual extents, with ~52% forgiveness on the tip
+  const playerLeft = state.player.x - 14 * s;
+  const playerRight = state.player.x + (36 + ex) * s * 0.52;
+  const playerTop = state.player.y - 9 * s;
+  const playerBottom = state.player.y + 9 * s;
 
   // Trim obstacle hitbox to match drawn shaft width (~64% of column)
   const trim = obstacle.width * 0.18;

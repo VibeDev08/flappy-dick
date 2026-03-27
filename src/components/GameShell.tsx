@@ -111,10 +111,15 @@ export function GameShell() {
     }
 
     const handleRetryShortcut = (event: KeyboardEvent) => {
-      if (event.code === "Space") {
-        event.preventDefault();
-        void retryRun();
+      if (event.code !== "Space") {
+        return;
       }
+      const tag = (document.activeElement as HTMLElement | null)?.tagName;
+      if (tag === "INPUT" || tag === "TEXTAREA") {
+        return;
+      }
+      event.preventDefault();
+      void retryRun();
     };
 
     window.addEventListener("keydown", handleRetryShortcut);
@@ -145,12 +150,18 @@ export function GameShell() {
       const nextBest = Math.max(bestScore, state.score);
       setBestScore(nextBest);
       saveNumber(storageKeys.bestScore, nextBest);
+
+      const response = await fetch("/api/leaderboard");
+      const payload = (await response.json()) as { entries: LeaderboardEntry[] };
+      const freshEntries = payload.entries;
+      setLeaderboardEntries(freshEntries);
+
       setResult({
         score: state.score,
-        qualifies: isTopTen(leaderboardEntries, state.score),
+        qualifies: isTopTen(freshEntries, state.score),
       });
     },
-    [bestScore, leaderboardEntries],
+    [bestScore],
   );
 
   const shareScore = useCallback(() => {
