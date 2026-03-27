@@ -6,7 +6,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint .",
+    "lint": "eslint src eslint.config.mjs next.config.ts open-next.config.ts",
     "test": "vitest run",
     "pages:build": "node --no-warnings=ExperimentalWarning ./node_modules/.bin/opennextjs-cloudflare build",
     "preview": "opennextjs-cloudflare preview",
