@@ -1247,13 +1247,15 @@ input {
 
   .lbHeaderRow,
   .lbRow {
-    grid-template-columns: 62px 1fr;
-    gap: 10px;
+    grid-template-columns: 54px 1fr;
+    gap: 8px;
+    padding: 8px 8px;
   }
 
   .lbHeaderRow {
     font-size: 0.65rem;
     letter-spacing: 0.12em;
+    padding-bottom: 10px;
   }
 
   .lbRow {
@@ -1267,7 +1269,20 @@ input {
   }
 
   .lbRowBody {
-    grid-template-columns: 1fr 84px 1fr;
+    grid-template-columns: 2fr 64px 1fr;
+    gap: 0 8px;
+  }
+
+  .lbRowBody > *:nth-child(2) {
+    padding-left: 0;
+  }
+
+  .lbRowBody > *:nth-child(3) {
+    padding-left: 0;
+  }
+
+  .lbAvatar svg {
+    height: 26px;
   }
 }
 
