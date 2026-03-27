@@ -65,8 +65,9 @@ export function getSupabaseAdminClient(): SupabaseClient<Database> {
     return cachedClient;
   }
 
+  const supabaseUrl = requiredEnv("NEXT_PUBLIC_SUPABASE_URL");
   cachedClient = createClient<Database>(
-    requiredEnv("NEXT_PUBLIC_SUPABASE_URL"),
+    supabaseUrl,
     requiredEnv("SUPABASE_SERVICE_ROLE_KEY"),
     {
       auth: {
