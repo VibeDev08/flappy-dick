@@ -3,7 +3,7 @@ import { z } from "zod";
 
 import { submitLeaderboardEntry } from "@/lib/server/leaderboardService";
 
-export const runtime = "nodejs";
+export const runtime = "edge";
 
 const schema = z.object({
   name: z.string(),
