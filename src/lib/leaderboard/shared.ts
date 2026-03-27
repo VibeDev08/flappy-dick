@@ -9,7 +9,7 @@ export type LeaderboardEntry = {
 };
 
 export function normalizeName(name: string): string {
-  return name.trim().slice(0, 8);
+  return name.trim().slice(0, 10);
 }
 
 export function isTopTen(entries: LeaderboardEntry[], score: number): boolean {
