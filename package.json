@@ -8,7 +8,7 @@
     "start": "next start",
     "lint": "eslint .",
     "test": "vitest run",
-    "pages:build": "opennextjs-cloudflare build",
+    "pages:build": "node --no-warnings=ExperimentalWarning ./node_modules/.bin/opennextjs-cloudflare build",
     "preview": "opennextjs-cloudflare preview"
   },
   "keywords": [
