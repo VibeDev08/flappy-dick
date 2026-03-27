@@ -42,13 +42,17 @@ export function NavBar({ onOpenLeaderboard }: NavBarProps) {
   const menuRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const handler = (e: MouseEvent) => {
+    const handler = (e: MouseEvent | TouchEvent) => {
       if (menuRef.current && !menuRef.current.contains(e.target as Node)) {
         setMenuOpen(false);
       }
     };
     document.addEventListener("mousedown", handler);
-    return () => document.removeEventListener("mousedown", handler);
+    document.addEventListener("touchstart", handler);
+    return () => {
+      document.removeEventListener("mousedown", handler);
+      document.removeEventListener("touchstart", handler);
+    };
   }, []);
 
   const openModal = (type: ModalType) => {
@@ -62,8 +66,13 @@ export function NavBar({ onOpenLeaderboard }: NavBarProps) {
         <button
           aria-label="Open menu"
           className="navHamburger"
-          disabled={modal !== null}
-          onClick={() => setMenuOpen((v) => !v)}
+          onClick={() => {
+            if (modal !== null) {
+              setModal(null);
+            } else {
+              setMenuOpen((v) => !v);
+            }
+          }}
           type="button"
         >
           <span className="navHamLine" />
@@ -101,8 +110,12 @@ export function NavBar({ onOpenLeaderboard }: NavBarProps) {
         <div
           className="lbBackdrop"
           role="dialog"
+          onClick={() => setModal(null)}
         >
-          <div className="lbCard">
+          <div
+            className="lbCard"
+            onClick={(e) => e.stopPropagation()}
+          >
             {modal === "about" && (
               <>
                 <h2 className="lbTitle">About</h2>
