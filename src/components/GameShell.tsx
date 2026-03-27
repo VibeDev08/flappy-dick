@@ -82,6 +82,9 @@ export function GameShell() {
     setResult(null);
     setSubmitError(null);
     audioRef.current.stopLoop();
+    // Pre-warm the AudioContext while the network round-trip is in flight so the
+    // OS audio subsystem is ready before the first flap (avoids a ~100–300ms stutter).
+    void audioRef.current.ensureReady();
     const response = await fetch("/api/run-token", { method: "POST" });
     const payload = (await response.json()) as RunTokenResponse;
     setRunToken(payload.token);
