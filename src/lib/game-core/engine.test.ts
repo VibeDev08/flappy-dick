@@ -1,4 +1,4 @@
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 
 import { GAME_CONSTANTS, minRunDurationMsForScore } from "@/lib/game-core/constants";
 import { createInitialState, updateGame } from "@/lib/game-core/engine";
@@ -69,6 +69,45 @@ describe("game engine", () => {
 
     const next = updateGame(seeded, { flap: false }, 16);
     expect(next.phase).toBe("dead");
+  });
+
+  it("applies a relief gap at score 45+ after the interval", () => {
+    const randomSpy = vi.spyOn(Math, "random").mockReturnValue(0.99);
+    try {
+      const state = createInitialState("ivory-twin");
+      const seeded = {
+        ...state,
+        phase: "running" as const,
+        score: 45,
+        spawnCooldownMs: 0,
+        obstaclesSinceReliefGap: 8,
+        nextReliefGapInterval: 8,
+      };
+
+      const next = updateGame(seeded, { flap: false }, 0);
+      expect(next.obstacles).toHaveLength(1);
+      expect(next.obstacles[0]?.gapHeight).toBe(148);
+      expect(next.obstaclesSinceReliefGap).toBe(0);
+      expect(next.nextReliefGapInterval).toBe(10);
+    } finally {
+      randomSpy.mockRestore();
+    }
+  });
+
+  it("does not apply relief gaps below score 45", () => {
+    const state = createInitialState("ivory-twin");
+    const seeded = {
+      ...state,
+      phase: "running" as const,
+      score: 44,
+      spawnCooldownMs: 0,
+      obstaclesSinceReliefGap: 50,
+      nextReliefGapInterval: 8,
+    };
+
+    const next = updateGame(seeded, { flap: false }, 0);
+    expect(next.obstacles).toHaveLength(1);
+    expect(next.obstacles[0]?.gapHeight).toBeCloseTo(128.9778, 4);
   });
 });
 

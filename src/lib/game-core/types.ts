@@ -27,6 +27,8 @@ export type GameState = {
   elapsedMs: number;
   nextObstacleId: number;
   spawnCooldownMs: number;
+  obstaclesSinceReliefGap: number;
+  nextReliefGapInterval: number;
   player: PlayerState;
   obstacles: ObstacleState[];
   characterId: AvatarId;

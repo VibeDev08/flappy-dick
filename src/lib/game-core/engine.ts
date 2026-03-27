@@ -17,6 +17,10 @@ function getDifficulty(score: number) {
   };
 }
 
+function randomReliefGapInterval(): number {
+  return 8 + Math.floor(Math.random() * 3);
+}
+
 function nextGapCenter(): number {
   const groundTop = WORLD_HEIGHT - GAME_CONSTANTS.groundHeight;
   const shaftBottom = groundTop + GAME_CONSTANTS.grassHeight;
@@ -71,6 +75,8 @@ export function createInitialState(characterId: GameState["characterId"]): GameS
     elapsedMs: 0,
     nextObstacleId: 1,
     spawnCooldownMs: GAME_CONSTANTS.firstObstacleDelayMs,
+    obstaclesSinceReliefGap: 0,
+    nextReliefGapInterval: randomReliefGapInterval(),
     player: {
       x: GAME_CONSTANTS.playerX,
       y: WORLD_HEIGHT / 2,
@@ -131,14 +137,26 @@ export function updateGame(state: GameState, input: GameInput, deltaMs: number):
   const elapsedMs = state.elapsedMs + deltaMs;
   let spawnCooldownMs = state.spawnCooldownMs - deltaMs;
   let nextObstacleId = state.nextObstacleId;
+  let obstaclesSinceReliefGap = state.obstaclesSinceReliefGap;
+  let nextReliefGapInterval = state.nextReliefGapInterval;
   if (spawnCooldownMs <= 0) {
+    const canUseReliefGap = state.score >= 45;
+    const shouldUseReliefGap =
+      canUseReliefGap && obstaclesSinceReliefGap >= nextReliefGapInterval;
+    const spawnedGapHeight = shouldUseReliefGap ? difficulty.gapHeight + 20 : difficulty.gapHeight;
     const spawned = {
       ...spawnObstacle({ ...state, elapsedMs, nextObstacleId }),
-      gapHeight: difficulty.gapHeight,
+      gapHeight: spawnedGapHeight,
     };
     movedObstacles.push(spawned);
     nextObstacleId += 1;
     spawnCooldownMs += difficulty.spacingMs;
+    if (shouldUseReliefGap) {
+      obstaclesSinceReliefGap = 0;
+      nextReliefGapInterval = randomReliefGapInterval();
+    } else if (canUseReliefGap) {
+      obstaclesSinceReliefGap += 1;
+    }
   }
 
   let score = state.score;
@@ -160,6 +178,8 @@ export function updateGame(state: GameState, input: GameInput, deltaMs: number):
     elapsedMs,
     nextObstacleId,
     spawnCooldownMs,
+    obstaclesSinceReliefGap,
+    nextReliefGapInterval,
     player: {
       ...state.player,
       y: nextY,

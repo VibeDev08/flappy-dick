@@ -113,7 +113,7 @@ export function NavBar({ onOpenLeaderboard }: NavBarProps) {
                     endless gauntlet of throbbing obstacles and try not to choke.
                   </p>
                   <p>
-                    Tap. Flap. Die. Repeat. Cry. Tap again.
+                    Tap. Flap. Die. Repeat.
                   </p>
                   <p>
                     Think you&apos;ve got what it takes to crack the top 10? Spoiler:
