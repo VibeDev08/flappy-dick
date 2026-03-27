@@ -44,9 +44,9 @@ export function drawScene(
     ? (state.elapsedMs / 1000 * GAME_CONSTANTS.obstacleSpeed) % WORLD_WIDTH
     : 0;
 
-  // Ground drawn at canvas level so it spans full screen width
+  // Ground drawn first so it sits behind obstacles
   const groundTopCanvas = GROUND_TOP * scale + offsetY;
-  drawGround(context, size.width, groundTopCanvas, scale);
+  drawGround(context, size.width, size.height, groundTopCanvas, scale);
 
   context.save();
   context.translate(offsetX, offsetY);
@@ -155,14 +155,13 @@ function drawBushes(context: CanvasRenderingContext2D, scrollX: number): void {
   }
 }
 
-const GROUND_TOP = WORLD_HEIGHT - 96;
-const GRASS_HEIGHT = 32;
-const DIRT_HEIGHT = 96;
+const GROUND_TOP = WORLD_HEIGHT - GAME_CONSTANTS.groundHeight;
+const GRASS_HEIGHT = GAME_CONSTANTS.grassHeight;
 
-function drawGround(context: CanvasRenderingContext2D, canvasWidth: number, groundTopCanvas: number, scale: number): void {
+function drawGround(context: CanvasRenderingContext2D, canvasWidth: number, canvasHeight: number, groundTopCanvas: number, scale: number): void {
   const grassH = Math.max(4, GRASS_HEIGHT * scale);
-  const dirtH = DIRT_HEIGHT * scale;
   const dirtTop = groundTopCanvas + grassH;
+  const dirtH = canvasHeight - dirtTop;
 
   // Tan dirt band
   context.fillStyle = "#ded895";
@@ -308,7 +307,7 @@ function drawObstacle(context: CanvasRenderingContext2D, obstacle: ObstacleState
   const gapBottom = obstacle.gapY + obstacle.gapHeight / 2;
 
   drawObstaclePiece(context, x, 0, obstacle.width, gapTop, false, obstacle.id * 2);
-  drawObstaclePiece(context, x, gapBottom, obstacle.width, GROUND_TOP + 12 - gapBottom, true, obstacle.id * 2 + 1);
+  drawObstaclePiece(context, x, gapBottom, obstacle.width, GROUND_TOP + GRASS_HEIGHT - gapBottom, true, obstacle.id * 2 + 1);
 }
 
 function drawObstaclePiece(

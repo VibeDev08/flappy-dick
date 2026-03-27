@@ -27,7 +27,6 @@ export function ResultOverlay({
 }: ResultOverlayProps) {
   const [name, setName] = useState("");
   const [quip] = useState(() => gooLines[Math.floor(Math.random() * gooLines.length)]);
-  const isNewBest = score > 0 && score >= bestScore;
   const isDisabled = isSubmitting || name.trim().length === 0;
 
   return (
@@ -81,7 +80,6 @@ export function ResultOverlay({
               <span className="scorePanelLabel">Best</span>
               <span className="scorePanelValue">
                 {bestScore}
-                {isNewBest && <span className="newBestTag">NEW</span>}
               </span>
             </div>
           </div>
@@ -120,11 +118,11 @@ export function ResultOverlay({
       )}
 
       <div className="gameOverActions">
-        <button className="gameOverBtn gameOverBtnPrimary" onClick={onRetry} type="button">
-          Retry
-        </button>
         <button className="gameOverBtn" onClick={onShare} type="button">
           Share
+        </button>
+        <button className="gameOverBtn gameOverBtnPrimary" onClick={onRetry} type="button">
+          Retry
         </button>
       </div>
     </div>

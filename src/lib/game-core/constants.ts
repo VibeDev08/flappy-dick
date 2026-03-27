@@ -9,12 +9,13 @@ export const GAME_CONSTANTS = {
   obstacleSpacingMs: 1400,
   firstObstacleDelayMs: 0,
   minGapHeight: 172,
-  gapJitter: 84,
   playerX: 230,
   playerBaseWidth: 54,
   playerBaseHeight: 28,
-  safeMargin: 72,
+  safeMargin: 116,
   topHudHeight: 54,
+  groundHeight: 140,
+  grassHeight: 32,
   retryDelayMs: 260,
 } as const;
 
