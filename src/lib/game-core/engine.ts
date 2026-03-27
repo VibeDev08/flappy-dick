@@ -15,14 +15,14 @@ function getDifficulty(score: number) {
   };
 }
 
-function nextGapCenter(score: number, elapsedMs: number): number {
-  const center = WORLD_HEIGHT / 2;
-  const wiggle = Math.sin((elapsedMs / 1000) * 1.9 + score * 0.7) * GAME_CONSTANTS.gapJitter;
-  return clamp(
-    center + wiggle,
-    GAME_CONSTANTS.topHudHeight + GAME_CONSTANTS.minGapHeight / 2 + 12,
-    WORLD_HEIGHT - GAME_CONSTANTS.safeMargin - GAME_CONSTANTS.minGapHeight / 2,
-  );
+function nextGapCenter(): number {
+  const groundTop = WORLD_HEIGHT - GAME_CONSTANTS.groundHeight;
+  const shaftBottom = groundTop + GAME_CONSTANTS.grassHeight;
+  const halfGap = GAME_CONSTANTS.minGapHeight / 2;
+  const minShaft = 85;
+  const min = halfGap + minShaft;
+  const max = shaftBottom - halfGap - minShaft;
+  return min + Math.random() * (max - min);
 }
 
 function spawnObstacle(state: GameState): ObstacleState {
@@ -31,7 +31,7 @@ function spawnObstacle(state: GameState): ObstacleState {
     variantId: `variant-${state.nextObstacleId}`,
     x: WORLD_WIDTH + GAME_CONSTANTS.obstacleWidth,
     width: GAME_CONSTANTS.obstacleWidth,
-    gapY: nextGapCenter(state.score, state.elapsedMs),
+    gapY: nextGapCenter(),
     gapHeight: GAME_CONSTANTS.minGapHeight,
     scored: false,
   };
