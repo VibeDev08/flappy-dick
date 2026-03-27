@@ -1426,11 +1426,14 @@ input {
 
 .socialLinksLabel {
   font-family: Impact, Haettenschweiler, "Arial Black", sans-serif;
-  font-size: 0.72rem;
+  font-size: 1.5rem;
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: rgba(255, 255, 255, 0.35);
   margin-right: 2px;
+  display: inline-flex;
+  align-items: center;
+  height: 34px;
 }
 
 .socialLinkBtn {
