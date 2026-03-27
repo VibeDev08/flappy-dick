@@ -100,7 +100,7 @@ export function ResultOverlay({
             <input
               className="gameOverNameInput"
               id="leaderboard-name"
-              maxLength={8}
+              maxLength={10}
               onChange={(event) => setName(event.target.value)}
               placeholder="Your name"
               value={name}
