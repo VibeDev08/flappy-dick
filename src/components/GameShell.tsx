@@ -225,14 +225,8 @@ export function GameShell() {
     }
 
     const text = `I scored ${result.score} on Flappy Dick 🍆💦. Can you beat me?`;
-    const navigatorWithUAData = navigator as Navigator & { userAgentData?: { mobile?: boolean } };
-    const isMobileShare =
-      navigatorWithUAData.userAgentData?.mobile === true ||
-      /Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent);
-    const shareUrl = isMobileShare
-      ? "https://www.flappydick.io/?share=20260328k"
-      : "https://www.flappydick.io/share?desktop=20260328a";
-    const url = `https://x.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(shareUrl)}`;
+    const shareUrl = "https://www.flappydick.io/share-v3";
+    const url = `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(shareUrl)}`;
     window.open(url, "_blank", "noopener,noreferrer");
   }, [result]);
 

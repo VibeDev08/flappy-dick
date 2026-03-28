@@ -1,22 +1,20 @@
 import type { Metadata } from "next";
-import type { ReactNode } from "react";
-import { GoogleAnalytics } from "@next/third-parties/google";
-
-import "./globals.css";
+import Link from "next/link";
 
 const siteUrl =
   process.env.NODE_ENV === "production"
     ? "https://www.flappydick.io"
     : process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
+
+const shareUrl = `${siteUrl}/share-v3`;
 const ogImagePath = "/og-card-final-approved-v2.png";
 
 export const metadata: Metadata = {
-  metadataBase: new URL(siteUrl),
   title: "Flappy Dick",
   description: "The browser arcade game you didn't ask for. Dodge the pipes. Top the leaderboard.",
   openGraph: {
     type: "website",
-    url: siteUrl,
+    url: shareUrl,
     title: "Flappy Dick",
     description: "The browser arcade game you didn't ask for. Dodge the pipes. Top the leaderboard.",
     siteName: "Flappy Dick",
@@ -37,13 +35,14 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({ children }: { children: ReactNode }) {
+export default function ShareV3Page() {
   return (
-    <html lang="en">
-      <body>{children}</body>
-      {process.env.NEXT_PUBLIC_GA_ID && (
-        <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_ID} />
-      )}
-    </html>
+    <main className="pageRoot">
+      <section className="panel">
+        <h1>Flappy Dick</h1>
+        <p>The browser arcade game you didn&apos;t ask for. Dodge the pipes. Top the leaderboard.</p>
+        <Link href="/">Play now</Link>
+      </section>
+    </main>
   );
 }

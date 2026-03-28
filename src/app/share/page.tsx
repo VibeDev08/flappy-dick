@@ -7,7 +7,7 @@ const siteUrl =
     : process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
 
 const shareUrl = `${siteUrl}/share`;
-const ogImagePath = "/og-card-mobile.png";
+const ogImagePath = "/og-card-final-approved-v2.png";
 
 export const metadata: Metadata = {
   title: "Flappy Dick",
@@ -22,7 +22,7 @@ export const metadata: Metadata = {
       {
         url: ogImagePath,
         width: 1024,
-        height: 529,
+        height: 537,
         alt: "Flappy Dick — the browser arcade game",
       },
     ],
