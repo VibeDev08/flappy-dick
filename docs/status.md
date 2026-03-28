@@ -29,6 +29,12 @@
 - "Switch Dick" post-crash character swap button added to NavBar; deployed to production (version 8cc3a4cc-841d-43b7-bb77-02bf4035b865)
 - Rotation-aware hitbox and post-crash fall physics shipped to production (version 9c82f9c5-4f77-44cd-9e43-5974150cabe8)
 - Spacebar on character-select screen now confirms the chosen dick and starts the run (same as "Let's Go"); deployed to production (version 5a597c46-c2e3-4b87-baaa-72c3ab99117e)
+- Top-10 congrats modal now hard-locks leaderboard entry until a valid name is submitted (no outside-tap dismiss, no spacebar retry bypass)
+- Share card/OG image refreshed to closely match the in-game title screen styling, obstacle art, prompt pill, and player avatar; deployed to production (version 93835afb-0849-42f7-a10e-cf2b6962fd6c)
+- Share/OG flow stabilized across devices after cache and crawler hardening:
+- Mobile remains pinned to the known-good path (`?share=20260328k`) with `og-card-mobile.png`.
+- Desktop uses a separate share key (`/share?desktop=20260328a`) so desktop tuning does not impact mobile behavior.
+- Sharing stays review-first via X intent and uses concise two-sentence copy with emoji.
 
 ## Follow-Up Ideas
 

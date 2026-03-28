@@ -1074,6 +1074,10 @@ input {
   padding: 28px 40px;
 }
 
+.leBackdrop {
+  z-index: 3000;
+}
+
 .leTitle {
   font-size: clamp(1.9rem, 6.5vw, 2.9rem);
   letter-spacing: 0.08em;

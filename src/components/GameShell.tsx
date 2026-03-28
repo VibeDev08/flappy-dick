@@ -117,6 +117,9 @@ export function GameShell() {
     }
 
     const handleRetryShortcut = (event: KeyboardEvent) => {
+      if (entryModalOpen) {
+        return;
+      }
       if (event.code !== "Space") {
         return;
       }
@@ -130,7 +133,7 @@ export function GameShell() {
 
     window.addEventListener("keydown", handleRetryShortcut);
     return () => window.removeEventListener("keydown", handleRetryShortcut);
-  }, [result, retryRun]);
+  }, [entryModalOpen, result, retryRun]);
 
   useEffect(() => {
     if (introStage !== "title") {
@@ -221,8 +224,15 @@ export function GameShell() {
       return;
     }
 
-    const text = `I scored ${result.score} on Flappy Dick 🍆💦 Can you beat me?`;
-    const url = `https://x.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(window.location.href)}`;
+    const text = `I scored ${result.score} on Flappy Dick 🍆💦. Can you beat me?`;
+    const navigatorWithUAData = navigator as Navigator & { userAgentData?: { mobile?: boolean } };
+    const isMobileShare =
+      navigatorWithUAData.userAgentData?.mobile === true ||
+      /Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent);
+    const shareUrl = isMobileShare
+      ? "https://www.flappydick.io/?share=20260328k"
+      : "https://www.flappydick.io/share?desktop=20260328a";
+    const url = `https://x.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(shareUrl)}`;
     window.open(url, "_blank", "noopener,noreferrer");
   }, [result]);
 
@@ -333,7 +343,6 @@ export function GameShell() {
       <LeaderboardModal entries={leaderboardEntries} onClose={() => setLeaderboardOpen(false)} open={leaderboardOpen} />
       <LeaderboardEntryModal
         isSubmitting={isSubmitting}
-        onClose={() => setEntryModalOpen(false)}
         onSubmitName={(name) => void submitName(name)}
         open={entryModalOpen}
         submitError={submitError}

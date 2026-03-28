@@ -8,7 +8,6 @@ type LeaderboardEntryModalProps = {
   isSubmitting: boolean;
   submitError: string | null;
   onSubmitName: (name: string) => void;
-  onClose: () => void;
 };
 
 export function LeaderboardEntryModal({
@@ -16,7 +15,6 @@ export function LeaderboardEntryModal({
   isSubmitting,
   submitError,
   onSubmitName,
-  onClose,
 }: LeaderboardEntryModalProps) {
   const [name, setName] = useState("");
   const isDisabled = isSubmitting || name.trim().length === 0;
@@ -28,6 +26,7 @@ export function LeaderboardEntryModal({
       void confetti({
         origin: { y: 0.55 },
         disableForReducedMotion: true,
+        zIndex: 4001,
         ...opts,
         particleCount: Math.floor(200 * particleRatio),
       });
@@ -45,7 +44,7 @@ export function LeaderboardEntryModal({
   }
 
   return (
-    <div className="lbBackdrop" onClick={onClose} role="presentation">
+    <div className="lbBackdrop leBackdrop" role="presentation">
       <div className="lbCard leCard" onClick={(event) => event.stopPropagation()} role="dialog">
         <div className="lbHeader">
           <h2 className="lbTitle leTitle">Congratulations!</h2>
@@ -68,6 +67,7 @@ export function LeaderboardEntryModal({
             maxLength={10}
             onChange={(event) => setName(event.target.value)}
             placeholder="NAME"
+            required
             value={name}
           />
           {submitError && <p className="errorText">{submitError}</p>}

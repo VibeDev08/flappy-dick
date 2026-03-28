@@ -51,3 +51,4 @@
 ## Milestone 9
 
 - [x] Add a standard deploy checklist and npm scripts for repeatable production releases.
+- [x] Enforce mandatory top-10 name claim flow by blocking dismiss/bypass paths on the congrats modal.
