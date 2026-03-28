@@ -247,7 +247,16 @@ export function GameShell() {
   return (
     <>
       <section className="gameFrame">
-        <NavBar onOpenLeaderboard={() => setLeaderboardOpen(true)} />
+        <NavBar
+          onOpenLeaderboard={() => setLeaderboardOpen(true)}
+          onSwitchDick={() => {
+            audioRef.current.stopLoop();
+            setResult(null);
+            setPendingCharacter(selectedCharacter);
+            setIntroStage("choose");
+          }}
+          showSwitchDick={!!result}
+        />
         <div className="canvasShell">
           {loadingRun ? <div className="canvasLoading">Spinning up a fresh run...</div> : null}
           <GameCanvas

@@ -1037,6 +1037,18 @@ input {
   padding: 16px 0;
 }
 
+.charSelectModal {
+  width: min(400px, 92vw);
+  padding: 32px 32px 24px;
+}
+
+.charSelectConfirmBtn {
+  font-size: clamp(1rem, 3.5vw, 1.2rem);
+  width: 100%;
+  padding: 14px 0 12px;
+  letter-spacing: 0.12em;
+}
+
 .lbCloseBtn {
   font-family: Impact, Haettenschweiler, "Arial Black", sans-serif;
   font-size: 1rem;
@@ -1322,6 +1334,46 @@ input {
     width: min(320px, 84vw);
     height: min(262px, 68vw);
   }
+}
+
+/* ── Nav — Switch Dick button ────────────────────── */
+
+.navSwitchDickBtn {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  z-index: 1000;
+  font-family: Impact, Haettenschweiler, "Arial Black", sans-serif;
+  font-size: 0.75rem;
+  font-weight: 900;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  line-height: 1.1;
+  text-align: center;
+  color: #ffffff;
+  background: #1a1a1a;
+  padding: 8px 12px 7px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  box-shadow:
+    3px 3px 0 #e85d04,
+    5px 5px 0 rgba(0, 0, 0, 0.22);
+  transition: transform 0.08s ease, box-shadow 0.08s ease;
+}
+
+.navSwitchDickBtn:hover {
+  transform: translate(-1px, -1px);
+  box-shadow:
+    5px 5px 0 #e85d04,
+    7px 7px 0 rgba(0, 0, 0, 0.22);
+}
+
+.navSwitchDickBtn:active {
+  transform: translate(2px, 2px);
+  box-shadow:
+    1px 1px 0 #e85d04,
+    2px 2px 0 rgba(0, 0, 0, 0.22);
 }
 
 /* ── Nav hamburger menu ──────────────────────────── */

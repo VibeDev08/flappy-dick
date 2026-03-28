@@ -6,6 +6,8 @@ import { socialLinks } from "@/lib/content/gameContent";
 
 type NavBarProps = {
   onOpenLeaderboard: () => void;
+  onSwitchDick: () => void;
+  showSwitchDick: boolean;
 };
 
 type ModalType = "about" | "privacy" | null;
@@ -36,7 +38,7 @@ function SocialIcon({ id }: { id: string }) {
   return null;
 }
 
-export function NavBar({ onOpenLeaderboard }: NavBarProps) {
+export function NavBar({ onOpenLeaderboard, onSwitchDick, showSwitchDick }: NavBarProps) {
   const [menuOpen, setMenuOpen] = useState(false);
   const [modal, setModal] = useState<ModalType>(null);
   const menuRef = useRef<HTMLDivElement>(null);
@@ -62,6 +64,16 @@ export function NavBar({ onOpenLeaderboard }: NavBarProps) {
 
   return (
     <>
+      {showSwitchDick && (
+        <button
+          className="navSwitchDickBtn"
+          onClick={onSwitchDick}
+          type="button"
+        >
+          Switch<br />Dick
+        </button>
+      )}
+
       <div className="navMenuWrap" ref={menuRef}>
         <button
           aria-label="Open menu"
