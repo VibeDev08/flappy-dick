@@ -21,6 +21,7 @@ export function CharacterSelect({ selected, onSelect, onContinue }: CharacterSel
             key={avatar.id}
             className={`chooseCard ${selected === avatar.id ? "chooseCardSelected" : ""}`}
             onClick={() => onSelect(avatar.id)}
+            onKeyDown={(e) => { if (e.code === "Space") { e.preventDefault(); } }}
             type="button"
           >
             <div className="choosePenisPreview">

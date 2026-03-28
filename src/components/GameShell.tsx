@@ -146,6 +146,26 @@ export function GameShell() {
     return () => window.removeEventListener("keydown", handleTitleShortcut);
   }, [introStage]);
 
+  useEffect(() => {
+    if (introStage !== "choose") {
+      return;
+    }
+
+    const handleChooseShortcut = (event: KeyboardEvent) => {
+      if (event.code !== "Space") {
+        return;
+      }
+      event.preventDefault();
+      const chosen = pendingCharacter ?? "ivory-twin";
+      setSelectedCharacter(chosen);
+      saveCharacter(chosen);
+      void beginRun();
+    };
+
+    window.addEventListener("keydown", handleChooseShortcut);
+    return () => window.removeEventListener("keydown", handleChooseShortcut);
+  }, [introStage, pendingCharacter, beginRun]);
+
   const onCrash = useCallback(
     async (state: GameState) => {
       audioRef.current.stopLoop();
