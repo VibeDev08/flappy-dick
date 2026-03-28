@@ -28,7 +28,7 @@
 - Deployment runbook added with repeatable verify/secret/deploy checklist and package scripts
 - "Switch Dick" post-crash character swap button added to NavBar; deployed to production (version 8cc3a4cc-841d-43b7-bb77-02bf4035b865)
 - Rotation-aware hitbox and post-crash fall physics shipped to production (version 9c82f9c5-4f77-44cd-9e43-5974150cabe8)
-- Spacebar on character-select screen now confirms the chosen dick and starts the run (same as "Let's Go")
+- Spacebar on character-select screen now confirms the chosen dick and starts the run (same as "Let's Go"); deployed to production (version 5a597c46-c2e3-4b87-baaa-72c3ab99117e)
 
 ## Follow-Up Ideas
 
