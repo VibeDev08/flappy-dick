@@ -26,6 +26,7 @@
 - Full release checks passing locally: `npm run lint`, `npm run test`, and `npm run build`
 - Result-overlay quips now use curated short phrases directly (no runtime ellipsis truncation)
 - Deployment runbook added with repeatable verify/secret/deploy checklist and package scripts
+- "Switch Dick" post-crash character swap button added to NavBar; deployed to production (version 8cc3a4cc-841d-43b7-bb77-02bf4035b865)
 
 ## Follow-Up Ideas
 

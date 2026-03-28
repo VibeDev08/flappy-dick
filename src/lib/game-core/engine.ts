@@ -47,12 +47,31 @@ function collidesWithObstacle(state: GameState, obstacle: ObstacleState): boolea
   const avatar = avatars.find((a) => a.id === state.characterId) ?? avatars[0];
   const ex = (avatar.lengthScale - 1) * 32;
   const s = avatar.sizeScale;
+  const r = state.player.rotation;
 
-  // Hitbox matches the shaft's actual visual extents, with ~52% forgiveness on the tip
-  const playerLeft = state.player.x - 14 * s;
-  const playerRight = state.player.x + (36 + ex) * s * 0.52;
-  const playerTop = state.player.y - 9 * s;
-  const playerBottom = state.player.y + 9 * s;
+  // Local hitbox corners relative to player center, with ~52% tip forgiveness
+  // and a 2-unit inward shrink on all edges so only clear near-misses survive
+  const shrink = 2 * s;
+  const lx = -14 * s + shrink;
+  const rx = (36 + ex) * s * 0.52 - shrink;
+  const ty = -9 * s + shrink;
+  const by =  9 * s - shrink;
+
+  // Rotate corners by player rotation to match the visual tilt
+  const cos = Math.cos(r);
+  const sin = Math.sin(r);
+  const corners = [
+    { x: lx, y: ty }, { x: rx, y: ty },
+    { x: rx, y: by }, { x: lx, y: by },
+  ].map((c) => ({
+    x: state.player.x + c.x * cos - c.y * sin,
+    y: state.player.y + c.x * sin + c.y * cos,
+  }));
+
+  const playerLeft   = Math.min(...corners.map((c) => c.x));
+  const playerRight  = Math.max(...corners.map((c) => c.x));
+  const playerTop    = Math.min(...corners.map((c) => c.y));
+  const playerBottom = Math.max(...corners.map((c) => c.y));
 
   // Trim obstacle hitbox to match drawn shaft width (~64% of column)
   const trim = obstacle.width * 0.18;
@@ -96,9 +115,24 @@ export function restartState(previous: GameState): GameState {
 
 export function updateGame(state: GameState, input: GameInput, deltaMs: number): GameState {
   if (state.phase === "dead") {
+    const deltaSeconds = deltaMs / 1000;
+    const nextVelocityY = state.player.velocityY + GAME_CONSTANTS.gravity * deltaSeconds;
+    const nextY = state.player.y + nextVelocityY * deltaSeconds;
+    const groundY = WORLD_HEIGHT - GAME_CONSTANTS.groundHeight - state.player.height / 2;
+    const landed = nextY >= groundY;
+
+    const targetRotation = clamp(nextVelocityY / 680, -0.8, 1.2);
+    const nextRotation = landed ? 1.2 : state.player.rotation * 0.7 + targetRotation * 0.3;
+
     return {
       ...state,
       elapsedMs: state.elapsedMs + deltaMs,
+      player: {
+        ...state.player,
+        y: landed ? groundY : nextY,
+        velocityY: landed ? 0 : nextVelocityY,
+        rotation: nextRotation,
+      },
     };
   }
 
