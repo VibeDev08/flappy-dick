@@ -5,6 +5,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { AgeGate } from "@/components/AgeGate";
 import { CharacterSelect } from "@/components/CharacterSelect";
 import { GameCanvas } from "@/components/GameCanvas";
+import { LeaderboardEntryModal } from "@/components/LeaderboardEntryModal";
 import { LeaderboardModal } from "@/components/LeaderboardModal";
 import { NavBar } from "@/components/NavBar";
 import { ResultOverlay } from "@/components/ResultOverlay";
@@ -46,6 +47,7 @@ export function GameShell() {
   const [bestScore, setBestScore] = useState(0);
   const [leaderboardEntries, setLeaderboardEntries] = useState<LeaderboardEntry[]>([]);
   const [leaderboardOpen, setLeaderboardOpen] = useState(false);
+  const [entryModalOpen, setEntryModalOpen] = useState(false);
   const [restartSeed, setRestartSeed] = useState(0);
   const [runToken, setRunToken] = useState<string | null>(null);
   const [loadingRun, setLoadingRun] = useState(false);
@@ -81,6 +83,7 @@ export function GameShell() {
     setLoadingRun(true);
     setResult(null);
     setSubmitError(null);
+    setEntryModalOpen(false);
     audioRef.current.stopLoop();
     // Pre-warm the AudioContext while the network round-trip is in flight so the
     // OS audio subsystem is ready before the first flap (avoids a ~100–300ms stutter).
@@ -181,6 +184,9 @@ export function GameShell() {
       try {
         const response = await fetch("/api/leaderboard");
         if (!response.ok) {
+          if (isTopTen(leaderboardEntries, state.score)) {
+            setEntryModalOpen(true);
+          }
           return;
         }
         const payload = (await response.json()) as { entries: LeaderboardEntry[] };
@@ -191,13 +197,20 @@ export function GameShell() {
           if (!current) {
             return current;
           }
+          const qualifies = isTopTen(freshEntries, state.score);
+          if (qualifies) {
+            setEntryModalOpen(true);
+          }
           return {
             ...current,
-            qualifies: isTopTen(freshEntries, state.score),
+            qualifies,
           };
         });
       } catch {
         // Ignore leaderboard refresh errors; crash results stay visible.
+        if (isTopTen(leaderboardEntries, state.score)) {
+          setEntryModalOpen(true);
+        }
       }
     },
     [bestScore, leaderboardEntries],
@@ -240,6 +253,7 @@ export function GameShell() {
       }
 
       setLeaderboardEntries(payload.entries);
+      setEntryModalOpen(false);
       setLeaderboardOpen(true);
     },
     [result, runToken, selectedCharacter],
@@ -308,19 +322,22 @@ export function GameShell() {
           {result ? (
             <ResultOverlay
               bestScore={bestScore}
-              isSubmitting={isSubmitting}
               onRetry={() => void retryRun()}
               onShare={() => void shareScore()}
-              onSubmitName={(name) => void submitName(name)}
-              qualifies={result.qualifies}
               score={result.score}
-              submitError={submitError}
             />
           ) : null}
         </div>
       </section>
 
       <LeaderboardModal entries={leaderboardEntries} onClose={() => setLeaderboardOpen(false)} open={leaderboardOpen} />
+      <LeaderboardEntryModal
+        isSubmitting={isSubmitting}
+        onClose={() => setEntryModalOpen(false)}
+        onSubmitName={(name) => void submitName(name)}
+        open={entryModalOpen}
+        submitError={submitError}
+      />
     </>
   );
 }

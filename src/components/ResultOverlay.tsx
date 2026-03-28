@@ -7,27 +7,17 @@ import { gooLines } from "@/lib/content/gameContent";
 type ResultOverlayProps = {
   score: number;
   bestScore: number;
-  qualifies: boolean;
-  isSubmitting: boolean;
-  submitError: string | null;
   onRetry: () => void;
-  onSubmitName: (name: string) => void;
   onShare: () => void;
 };
 
 export function ResultOverlay({
   score,
   bestScore,
-  qualifies,
-  isSubmitting,
-  submitError,
   onRetry,
-  onSubmitName,
   onShare,
 }: ResultOverlayProps) {
-  const [name, setName] = useState("");
   const [quip] = useState(() => gooLines[Math.floor(Math.random() * gooLines.length)]);
-  const isDisabled = isSubmitting || name.trim().length === 0;
 
   return (
     <div className="gameOverScreen">
@@ -86,36 +76,6 @@ export function ResultOverlay({
           <p className="gameOverQuip">{quip}</p>
         </div>
       </div>
-
-      {qualifies && (
-        <form
-          className="gameOverNameForm"
-          onSubmit={(event) => {
-            event.preventDefault();
-            onSubmitName(name);
-          }}
-        >
-          <p className="gameOverNamePrompt">You made the top 10! Enter your name:</p>
-          <div className="gameOverNameRow">
-            <input
-              className="gameOverNameInput"
-              id="leaderboard-name"
-              maxLength={10}
-              onChange={(event) => setName(event.target.value)}
-              placeholder="Your name"
-              value={name}
-            />
-            <button
-              className="gameOverBtn gameOverSaveBtn"
-              disabled={isDisabled}
-              type="submit"
-            >
-              {isSubmitting ? "..." : "Save"}
-            </button>
-          </div>
-          {submitError && <p className="errorText">{submitError}</p>}
-        </form>
-      )}
 
       <div className="gameOverActions">
         <button className="gameOverBtn" onClick={onShare} type="button">
