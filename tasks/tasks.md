@@ -52,3 +52,9 @@
 
 - [x] Add a standard deploy checklist and npm scripts for repeatable production releases.
 - [x] Enforce mandatory top-10 name claim flow by blocking dismiss/bypass paths on the congrats modal.
+- [x] Add a Reddit banner asset at `1920x384` based on the approved Twitter banner art.
+- [x] Add a Reddit profile image based on the app favicon instead of the character art.
+
+## Milestone 10
+
+- [x] Enable RLS and service-role-only policies on Supabase `public` leaderboard tables to resolve "table publicly accessible" security warnings.

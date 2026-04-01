@@ -31,10 +31,13 @@
 - Spacebar on character-select screen now confirms the chosen dick and starts the run (same as "Let's Go"); deployed to production (version 5a597c46-c2e3-4b87-baaa-72c3ab99117e)
 - Top-10 congrats modal now hard-locks leaderboard entry until a valid name is submitted (no outside-tap dismiss, no spacebar retry bypass)
 - Share card/OG image refreshed to closely match the in-game title screen styling, obstacle art, prompt pill, and player avatar; deployed to production (version 93835afb-0849-42f7-a10e-cf2b6962fd6c)
+- Reddit social banner added in `public/reddit-banner.png`, matching the approved Twitter banner art and exported at `1920x384`
+- Reddit profile image added in `public/reddit-profile.png`, using the app favicon styling instead of the character art
 - Share/OG flow stabilized across devices after cache and crawler hardening:
 - Mobile remains pinned to the known-good path (`?share=20260328k`) with `og-card-mobile.png`.
 - Desktop uses a separate share key (`/share?desktop=20260328a`) so desktop tuning does not impact mobile behavior.
 - Sharing stays review-first via X intent and uses concise two-sentence copy with emoji.
+- Supabase security hardening: enabled RLS plus `service_role`-only policies on `public.leaderboard_entries` and `public.used_run_tokens`; security advisors now return zero findings.
 
 ## Follow-Up Ideas
 
